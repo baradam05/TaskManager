@@ -1,0 +1,30 @@
+﻿@{
+    string name = ViewBag.Name;
+    bool isExpandable = ViewBag.IsExpandable;
+    string expandableName = ViewBag.ExpandableName;
+}
+
+<div class="d-flex align-items-center mb-2" style="color: gray; user-select: none;" @(isExpandable ? Html.Raw($"onclick=\"showExpendable('{expandableName}')\"") : "")>
+
+    <div class="me-2">@name</div>
+
+    @if (isExpandable)
+    {
+        <div id="iconDown_@expandableName">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down me-2" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+            </svg>
+        </div>
+
+        <div id="iconUp_@expandableName" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up me-2" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+            </svg>
+        </div>
+    }
+
+    <div class="flex-grow-1">
+        <hr class="m-0" style="border-top: 2px solid #000;" />
+    </div>
+</div>
+

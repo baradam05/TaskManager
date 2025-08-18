@@ -1,0 +1,74 @@
+﻿@model FilterDto
+@using TaskManager.Models.DbClasses
+@using TaskManager.Components
+@using TaskManager.Models.Dto
+@{
+    List<Assignment> assignments = this.ViewBag.Assignment;
+    TableSortDto? tableSort = this.ViewBag.TableSort;
+}
+
+<vc:divider name="Filter" is-expandable="true" expandable-name="Filter"></vc:divider>
+<form asp-action="Manage" method="post" class="container my-4" id="Filter" hidden>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label asp-for="status" class="form-label">Status</label>
+                <select asp-for="status" class="form-select">
+                    <option value="0" selected>All</option>
+                    <option value="1">In progress</option>
+                    <option value="-1">Late</option>
+                    <option value="2">Finished</option>
+                </select>
+            </div>
+
+            <vc:divider name="Assign to" is-expandable="true" expandable-name="userList"></vc:divider>
+
+            <div id="userList" class="collapse show">
+                @foreach (Account account in ViewBag.Accounts as List<Account>)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="assignedToId" value="@account.AccountId" id="user_@account.AccountId" @(Model != null && Model.assignedToId.Contains((int)account.AccountId) ? "checked" : "") />
+                        <label class="form-check-label" for="user_@account.AccountId">@account.Username</label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Start</label>
+                    <input asp-for="StartFrom" type="date" class="form-control mb-2" placeholder="From" />
+                    <input asp-for="StartTo" type="date" class="form-control" placeholder="To" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">End</label>
+                    <input asp-for="EndFrom" type="date" class="form-control mb-2" placeholder="From" />
+                    <input asp-for="EndTo" type="date" class="form-control" placeholder="To" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Assigned At</label>
+                    <input asp-for="AssignedAtFrom" type="date" class="form-control mb-2" placeholder="From" />
+                    <input asp-for="AssignedAtTo" type="date" class="form-control" placeholder="To" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-end mt-3">
+        <a asp-controller="Assignment" asp-action="Manage" class="btn btn-secondary">Clear</a>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+    <hr style="border-top: 2px solid #000;" />
+</form>
+
+@if (assignments.Count == 0)
+{
+    <div class="alert alert-secondary" role="alert">
+        🤷
+    </div>
+}
+else
+{
+    <vc:table assignments="@assignments" table-type="@Table.Edit" table-sort="@(tableSort != null ? tableSort : null)"></vc:table>
+}

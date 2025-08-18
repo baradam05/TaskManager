@@ -1,0 +1,18 @@
+﻿@using TaskManager.Models.Classes
+@using TaskManager.Models.DbClasses
+@{
+    SubAssignment SubAssignment = this.ViewBag.SubAssignment;
+    int assignmentId = SubAssignment.AssignmentId;
+}
+
+<tr>
+    <td>@SubAssignment.Assignment</td>
+    <td class="text-center">
+        <div class="form-check d-flex justify-content-center">
+            <input class="form-check-input confirm-checkbox subTaskInput_@assignmentId" type="checkbox"
+                   value="@SubAssignment.SubAssignmentId"
+                   name="completedSubIds"
+                   @(SubAssignment.Finished ? "checked" : "") />
+        </div>
+    </td>
+</tr>

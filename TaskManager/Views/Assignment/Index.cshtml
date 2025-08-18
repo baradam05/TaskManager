@@ -1,0 +1,214 @@
+﻿@using TaskManager.Models.DbClasses
+@using TaskManager.Models.Dto
+@model AssignmentDto
+@{
+    List<Account> Users = this.ViewBag.Users;
+    int index = Model.SubAsignments.Count != null ? Model.SubAsignments.Count : 0;
+}
+
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="card p-3 shadow-sm" style="width: 350px;">
+        <h5 class="card-title text-center mb-3">New Assignment</h5>
+
+        <form asp-action="Index"  method="post" onsubmit="gatherFinishedStates()">
+            <input asp-for="IsEditing" hidden />
+
+            <label class="form-label">Start</label>
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <input asp-for="StartDate" type="date" class="form-control form-control-sm" />
+                </div>
+                <div class="col-3">
+                    <input asp-for="StartHours" type="number" min="0" max="23" class="form-control form-control-sm" placeholder="HH" />
+                </div>
+                <div class="col-3">
+                    <input asp-for="StartMinutes" type="number" min="0" max="59" class="form-control form-control-sm" placeholder="MM" />
+                </div>
+            </div>
+
+            <label class="form-label">End</label>
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <input asp-for="EndDate" type="date" class="form-control form-control-sm" required />
+                </div>
+                <div class="col-3">
+                    <input asp-for="EndHours" type="number" min="0" max="23" class="form-control form-control-sm" placeholder="HH" />
+                </div>
+                <div class="col-3">
+                    <input asp-for="EndMinutes" type="number" min="0" max="59" class="form-control form-control-sm" placeholder="MM" />
+                </div>
+            </div>
+
+            <div id="subassignments" class="mb-3">
+                @for (int i = 0; i < index; i++)
+                {
+                    <div class="row g-2 mb-2 align-items-center task-row" id="Sub_@i">
+                        <div class="col-auto align-self-start p-0">
+                            <div class="square-btn" onclick="moveUpSubAssignment(@i)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                     fill="currentColor" class="bi bi-arrow-up-square"
+                                     viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="col p-0 px-2">
+                            <input asp-for="SubAsignments[@i].id" type="hidden" />
+
+                            <div class="d-flex align-items-center gap-2">
+                                <textarea asp-for="SubAsignments[@i].SubAssignment"
+                                          id="textarea_@i"
+                                          class="form-control my_textarea flex-grow-1"></textarea>
+
+                                <input type="hidden" name="SubAsignments[@i].finished" id="finished_@i" value="@(Model.SubAsignments[i].finished.ToString().ToLower())" />
+                            </div>
+                        </div>
+
+                        <div class="col-auto align-self-start p-0">
+                            <button type="button" class="btn btn-danger square-btn" onclick="removeSubAssignment(@i)">X</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <button type="button" class="btn btn-secondary btn-sm w-100 mb-2" onclick="addSubAssignment()">Add Task</button>
+
+            <label>Assign to:</label>
+            <select asp-for="AssignedToIds" class="form-select form-select-sm mb-2" multiple aria-label="Select users">
+                @foreach (Account account in Users)
+                {
+                    <option value="@account.AccountId">@account.Username</option>
+                }
+            </select>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary btn-sm flex-grow-1 me-2">
+                    @if (Model.IsEditing == -1)
+                    {
+                        @: Submit
+                    }
+                    else
+                    {
+                        @: Save
+                    }
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="history.back()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{
+    if (this.ViewBag.NoSubAssignments)
+    {
+        <div class="alert alert-danger mt-3 container d-flex justify-content-center align-items-center" role="alert" style="width: 300px;">
+            There must be at least 1 task !
+        </div>
+    }
+    if (this.ViewBag.NoAssignedUsers)
+    {
+        <div class="alert alert-danger mt-3 container d-flex justify-content-center align-items-center" role="alert" style="width: 300px;">
+            There must be at least 1 user assigned !
+        </div>
+    }
+}
+
+@section Scripts {
+    <script>
+        let index = @index;
+
+        function addSubAssignment() {
+            const container = document.getElementById("subassignments");
+
+            const html = `
+                <div class="row g-2 mb-2 align-items-center task-row" id="Sub_${index}">
+                    <div class="col-auto align-self-start p-0">
+                        <div class="square-btn" onclick="moveUpSubAssignment(${index})">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                 fill="currentColor" class="bi bi-arrow-up-square"
+                                 viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="col p-0 px-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <textarea id="textarea_${index}" name="SubAsignments[${index}].SubAssignment" class="form-control my_textarea flex-grow-1"></textarea>
+
+                            <input type="hidden" name="SubAsignments[${index}].finished" id="finished_${index}" value="false" />
+                        </div>
+                    </div>
+
+                    <div class="col-auto align-self-start p-0">
+                        <button type="button" class="btn btn-danger square-btn" onclick="removeSubAssignment(${index})">X</button>
+                    </div>
+                </div>
+            `;
+
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = html;
+            container.appendChild(wrapper.firstElementChild);
+
+            index++;
+        }
+
+        function removeSubAssignment(id) {
+            let element = document.getElementById('Sub_' + id);
+            if (element)
+                element.remove();
+        }
+
+        function moveUpSubAssignment(id) {
+            if (id === 0)
+                return;
+
+            const currentText = document.getElementById(`textarea_${id}`).value;
+            const currentFinishedVal = document.getElementById(`finished_${id}`).value;
+
+            const prevText = document.getElementById(`textarea_${id - 1}`).value;
+            const prevFinishedVal = document.getElementById(`finished_${id - 1}`).value;
+
+            document.getElementById(`textarea_${id}`).value = prevText;
+            document.getElementById(`textarea_${id - 1}`).value = currentText;
+
+            document.getElementById(`finished_${id}`).value = prevFinishedVal;
+            document.getElementById(`finished_${id - 1}`).value = currentFinishedVal;
+
+            updateFinishedButtonUI(id, prevFinishedVal === 'true');
+            updateFinishedButtonUI(id - 1, currentFinishedVal === 'true');
+
+            autoResizeTextarea(document.getElementById(`textarea_${id}`));
+            autoResizeTextarea(document.getElementById(`textarea_${id - 1}`));
+        }
+
+        function toggleFinished(i) {
+            const hiddenInput = document.getElementById(`finished_${i}`);
+            const btn = hiddenInput.nextElementSibling;
+            const newVal = hiddenInput.value === 'true' ? 'false' : 'true';
+            hiddenInput.value = newVal;
+            updateFinishedButtonUI(i, newVal === 'true');
+        }
+
+        function updateFinishedButtonUI(i, isFinished) {
+            const btn = document.querySelector(`#Sub_${i} button.btn-outline-success`);
+            if (btn) {
+                btn.textContent = isFinished ? '✔' : '✘';
+            }
+        }
+
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        document.addEventListener('input', function (e) {
+            if (e.target.classList.contains('my_textarea')) {
+                autoResizeTextarea(e.target);
+            }
+        });
+    </script>
+}

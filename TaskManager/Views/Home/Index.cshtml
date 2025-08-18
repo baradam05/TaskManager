@@ -1,0 +1,38 @@
+﻿@using TaskManager.Components
+@using TaskManager.Models.Classes
+@using TaskManager.Models.DbClasses
+@{
+    List<Assignment> assignments = this.ViewBag.Assignments;
+    List<Assignment> finished = this.ViewBag.Finished;
+
+    bool isDefaultTableSorting = this.ViewBag.TableSort.orderTable == Table.Default ? true : false;
+    bool isDoneTableSorting = this.ViewBag.TableSort.orderTable == Table.Done ? true : false;
+}
+
+<vc:divider name="Tasks"></vc:divider>
+
+@if(assignments.Count == 0)
+{
+    <div class="alert alert-success" role="alert">
+        All tasks done !
+    </div>
+}
+else
+{
+    <vc:table assignments="@assignments" table-sort="@(isDefaultTableSorting ? this.ViewBag.TableSort : null)"></vc:table>
+}
+
+<vc:divider name="Finished" is-expandable="true" expandable-name="Finished"></vc:divider>
+
+<div id="Finished">
+    @if (finished.Count == 0)
+    {
+        <div class="alert alert-danger" role="alert">
+            No tasks are done !
+        </div>
+    }
+    else
+    {
+        <vc:table assignments="@finished" table-Type="@Table.Done" table-sort="@(isDoneTableSorting ? this.ViewBag.TableSort : null)"></vc:table>
+    }
+</div>

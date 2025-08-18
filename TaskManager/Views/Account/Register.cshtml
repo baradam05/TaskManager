@@ -1,0 +1,120 @@
+﻿@using TaskManager.Models.DbClasses
+@using TaskManager.Models.Dto
+@{
+    List<Account> leaders = this.ViewBag.Leaders;
+}
+@model RegisterDto
+
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="card p-3 shadow-sm" style="width: 300px;">
+        <h4 class="card-title text-center mb-3">Task Manager</h4>
+        <h5 class="text-center mb-3">Register</h5>
+        
+        <form asp-action="Register" method="post">
+            <label>Leader</label>
+            <select asp-for="LeaderId" class="form-select form-select-sm mb-2">
+                @foreach (Account leader in leaders)
+                {
+                    <option value="@leader.AccountId">@leader.Username</option>
+                }
+            </select>
+            <hr />
+            <input asp-for="Username" type="text" placeholder="Username" class="form-control form-control-sm mb-2" required />
+            <input asp-for="Email" type="text" placeholder="Email" class="form-control form-control-sm mb-2" required />
+            <div class="d-flex align-items-center mb-2">
+                <input asp-for="Password" type="password" placeholder="Password" class="form-control form-control-sm me-2" id="registerPassword" required />
+                <div id="registerPasswordIconHidden" onclick="toggleRegisterPassword()" style="cursor: pointer;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z" />
+                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z" />
+                    </svg>
+                </div>
+
+                <div id="registerPasswordIconShown" onclick="toggleRegisterPassword()" hidden style="cursor: pointer;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <input asp-for="PasswordAgain" type="password" placeholder="Password again" class="form-control form-control-sm me-2" id="registerPasswordAgain" required />
+
+                <div id="registerPasswordAgainIconHidden" onclick="toggleRegisterPasswordAgain()" style="cursor: pointer;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z" />
+                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z" />
+                    </svg>
+                </div>
+
+                <div id="registerPasswordAgainIconShown" onclick="toggleRegisterPasswordAgain()" hidden style="cursor: pointer;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                    </svg>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm w-100">Register</button>
+        </form>
+        <a asp-controller="Account" asp-action="Login" class="d-block text-center mt-2" style="font-size: 11px">Already have an account? Login here</a>
+    </div>
+</div>
+
+@if ((bool?)ViewBag.InvalidUsername ?? false)
+{
+    <div class="alert alert-danger mt-3 container d-flex justify-content-center align-items-center" role="alert" style="width: 300px;">
+        Username is already taken!
+    </div>
+}
+
+@if ((bool?)ViewBag.InvalidEmail ?? false)
+{
+    <div class="alert alert-danger mt-3 container d-flex justify-content-center align-items-center" role="alert" style="width: 300px;">
+        Email is already used!
+    </div>
+}
+
+@if ((bool?)ViewBag.InvalidPassword ?? false)
+{
+    <div class="alert alert-danger mt-3 container d-flex justify-content-center align-items-center" role="alert" style="width: 300px;">
+        Passwords are not the same
+    </div>
+}
+
+
+
+<script>
+    function toggleRegisterPassword() {
+        const input = document.getElementById("registerPassword");
+        const iconShow = document.getElementById("registerPasswordIconShown");
+        const iconHide = document.getElementById("registerPasswordIconHidden");
+
+        if (input.type === "password") {
+            input.type = "text";
+            iconHide.hidden = true;
+            iconShow.hidden = false;
+        } else {
+            input.type = "password";
+            iconHide.hidden = false;
+            iconShow.hidden = true;
+        }
+    }
+
+    function toggleRegisterPasswordAgain() {
+        const input = document.getElementById("registerPasswordAgain");
+        const iconShow = document.getElementById("registerPasswordAgainIconShown");
+        const iconHide = document.getElementById("registerPasswordAgainIconHidden");
+
+        if (input.type === "password") {
+            input.type = "text";
+            iconHide.hidden = true;
+            iconShow.hidden = false;
+        } else {
+            input.type = "password";
+            iconHide.hidden = false;
+            iconShow.hidden = true;
+        }
+    }
+</script>
