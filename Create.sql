@@ -1,4 +1,4 @@
---CREATE DATABASE TaskManager;
+CREATE DATABASE TaskManager;
 USE TaskManager;
 GO
 
