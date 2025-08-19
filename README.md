@@ -11,37 +11,6 @@ Celá aplikace je spíše ukázkový projekt, který má demonstrovat mé dovedn
 Rozhraní aplikace je kompletně v **angličtině**.
 
 ---
-## Funkcionalita
-- Uživatel se musí nejprve **přihlásit** nebo **zaregistrovat**.  
-- Uživatelé jsou buď **leadeři**, nebo mají svého **leadera**, který jim zadává úkoly.  
-- Každý uživatel může mít více úkolů, přičemž jeden úkol může být zadán více uživatelům.
-  <img src="assets/01.gif" width="480">
-### Hlavní funkce
-- **Domovská stránka**
-  - Zobrazuje úkoly aktuálně přidělené uživateli.
-  - Úkoly obsahují datum zadání, začátek a termín dokončení.
-  - Tabulky lze řadit kliknutím na záhlaví sloupce.
-  <img src="assets/03.gif" width="480">
-  <img src="assets/02.gif" width="480">
-  - Každý úkol se skládá z **podúkolů** – textových popisů, které lze ručně označit za splněné.
-	  -  Lze rozkliknout řádek a označit podúkoly jako hotové či nesplněné
-  - Po dokončení všech podúkolů se úkol automaticky označí jako hotový.
-  - Hotové úkoly jsou viditelné v sekci **Finished**.
-  <img src="assets/04.gif" width="480">
-  <img src="assets/05.gif" width="480">
-
-- **Správa účtu**
-  - Každý uživatel může v pravém horním rohu části editovat svůj účet.
-  <img src="assets/06.gif" width="480">
-- **Leader**
-  - Může přidávat nové úkoly pomocí tlačítka **"New Task"**.
-  <img src="assets/09.gif" width="480">
-  - Může spravovat všechny své úkoly v sekci **"Manage tasks"**.
-  <img src="assets/07.gif" width="480">
-  - Úkoly lze filtrovat podle různých kritérií, editovat nebo mazat.
-  <img src="assets/08.gif" width="480">
-
----
 ## Jak aplikaci spustit
 
 V repozitáři se nachází soubory `CREATE.sql` a ``INSERT.sql``, které vytvoří databázi, tabulky a vloží testovací data. Nebo můžete využít ``BEGIN.sql``, což je kombinace CREATE A INSERT.
@@ -57,7 +26,48 @@ Všichni mají stejné velice silné heslo: **1234**.
 Heslo lze následně změnit v nastavení účtu.
 
 ---
+## Funkcionalita
+- Uživatel se musí nejprve **přihlásit** nebo **zaregistrovat**.  
+- Uživatelé jsou buď **leadeři**, nebo mají svého **leadera**, který jim zadává úkoly.  
+- Každý uživatel může mít více úkolů, přičemž jeden úkol může být zadán více uživatelům.
 
+<img src="assets/01.gif" width="720">
+
+### Hlavní funkce
+- **Domovská stránka**
+  - Zobrazuje úkoly aktuálně přidělené uživateli.
+  - Úkoly obsahují datum zadání, začátek a termín dokončení.
+  - Tabulky lze řadit kliknutím na záhlaví sloupce.
+<img src="assets/03.gif" width="720">
+<img src="assets/02.gif" width="720">
+
+- Každý úkol se skládá z **podúkolů** – textových popisů, které lze ručně označit za splněné.
+	-  Lze rozkliknout řádek a označit podúkoly jako hotové či nesplněné
+- Po dokončení všech podúkolů se úkol automaticky označí jako hotový.
+- Hotové úkoly jsou viditelné v sekci **Finished**.
+
+<img src="assets/04.gif" width="720">
+<img src="assets/05.gif" width="720">
+
+- **Správa účtu**
+  - Každý uživatel může v pravém horním rohu části editovat svůj účet.
+
+<img src="assets/06.gif" width="720">
+
+- **Leader**
+- Může přidávat nové úkoly pomocí tlačítka **"New Task"**.
+
+<img src="assets/09.gif" width="720">
+
+- Může spravovat všechny své úkoly v sekci **"Manage tasks"**.
+
+<img src="assets/07.gif" width="720">
+
+- Úkoly lze filtrovat podle různých kritérií, editovat nebo mazat.
+
+<img src="assets/08.gif" width="720">
+
+---
 ## Struktura projektu
 ### Controllers
 - **Home**
