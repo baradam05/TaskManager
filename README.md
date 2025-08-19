@@ -96,7 +96,7 @@ Heslo lze následně změnit v nastavení účtu.
     - `name` – název oddělovače
     - `isExpandable` – zda je rozbalovací
     - `expandableName` – ID elementu, který se má schovávat
-  ```html
+```html
 // Jednoduchý oddělovač
 <vc:divider name="Simple divider"></vc:divider>
 
@@ -113,15 +113,7 @@ Heslo lze následně změnit v nastavení účtu.
     - `assignments` – seznam úkolů k zobrazení
     - `tableSort` – řazení tabulky (`TableSortDto`)
     - `tableType` – typ tabulky (`Table`)
-```csharp
-public enum Table
-{
-  Default = 0,
-  Edit = 1,
-  Done = 2
-}
-```
 ___
 ## Závěr
 
-Při práci jsem si znovu osvěžil a rozšířil moje znalosti ze střední školy ohledně ASP.NET MVC a C#. Co bych chtěl do budoucna zlepšit je moje znalost JS. Poprvé jsem lokálně stahoval a spouštěl SQL server, což doufám že v budoucnu nezabere tolik času. Hlavně bych chtěl zlepšit můj time-management skill, protože jsem ne projektu strávil mnohem více času než jsem očekával a kolik bych si přál.
+Při práci jsem si znovu osvěžil a rozšířil svoje znalosti ze střední školy ohledně ASP.NET MVC a C#. Co bych chtěl do budoucna zlepšit je moje znalost JS. Poprvé jsem lokálně stahoval a spouštěl SQL server, což doufám že v budoucnu nezabere tolik času. Hlavně bych chtěl zlepšit můj time-management skill, protože jsem na projektu strávil mnohem více času než jsem očekával a kolik bych si přál.

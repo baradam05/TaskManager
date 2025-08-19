@@ -44,8 +44,8 @@ VALUES
 (4, 'Nasadit aplikaci', 1),
 (5, 'Vypracovat analýzu', 1),
 (5, 'Prezentace výsledků', 0),
-(6, 'Naplánovat meeting', 0),
-(6, 'Sepsat zápis z meetingu', 1),
+(6, 'Naplánovat meeting', 1),
+(6, 'Sepsat zápis z meetingu', 0),
 (7, 'Společná prezentace', 0),
 (7, 'Rozdělit úkoly mezi členy', 1),
 (7, 'Finalizace dokumentace', 0);
