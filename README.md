@@ -14,9 +14,12 @@ Rozhraní aplikace je kompletně v **angličtině**.
 ## Jak aplikaci spustit
 
 V repozitáři se nachází soubory `CREATE.sql` a ``INSERT.sql``, které vytvoří databázi, tabulky a vloží testovací data. Nebo můžete využít ``BEGIN.sql``, což je kombinace CREATE A INSERT.
-V `Models\Classes\MyContext.cs` v projektu je potřeba nastavit připojení k vaší SQL databázi pomocí Entity Frameworku.  
+V `Models\Classes\MyContext.cs` v projektu je potřeba nastavit připojení k vaší SQL databázi pomocí Entity Frameworku.
+Pokud budete `CREATE.sql` nebo `BEGIN.sql` spouštět víckrát, doporučuji zakomentovat vytvoření databáze na začátku scriptů.
 
-### Testovací uživatelé
+**Diagram databáze:**
+<img width="1145" height="392" src="https://github.com/user-attachments/assets/b9a2d804-b710-4c76-afca-b076fa1f3c07" />
+## Testovací uživatelé
 V základních datech jsou vytvořeni tři uživatelé:
 - **manager** – lídr ostatních dvou účtů  
 - **bob**  
