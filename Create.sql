@@ -1,4 +1,4 @@
-CREATE DATABASE TaskManager;
+--CREATE DATABASE TaskManager;
 USE TaskManager;
 GO
 
@@ -28,7 +28,7 @@ CREATE TABLE Assignment (
 CREATE TABLE SubAssignment (
     SubAssignmentId INT IDENTITY(1,1) PRIMARY KEY,
     AssignmentId INT NOT NULL,
-    Assignment TEXT NULL,
+    Assignment VARCHAR(1000) NULL,
     Finished BIT NOT NULL DEFAULT 0
 );
 
@@ -57,3 +57,4 @@ FOREIGN KEY (AssignedBy) REFERENCES Account(AccountId) ON DELETE SET NULL;
 ALTER TABLE SubAssignment
 ADD CONSTRAINT FK_SubAssignmentAssignment
 FOREIGN KEY (AssignmentId) REFERENCES Assignment(AssignmentId) ON DELETE CASCADE;
+GO

@@ -7,9 +7,9 @@ DELETE FROM Assignment;
 DELETE FROM Account;
 GO
 
-DBCC CHECKIDENT ('SubAssignment', RESEED, 0);
-DBCC CHECKIDENT ('Assignment', RESEED, 0);
-DBCC CHECKIDENT ('Account', RESEED, 0);
+DBCC CHECKIDENT ('SubAssignment', RESEED, 1);
+DBCC CHECKIDENT ('Assignment', RESEED, 1);
+DBCC CHECKIDENT ('Account', RESEED, 1);
 GO
 
 INSERT INTO Account (LeaderId, Username, PasswordHash, Email)

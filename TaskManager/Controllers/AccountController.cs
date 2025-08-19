@@ -70,15 +70,19 @@ namespace TaskManager.Controllers
         [HttpPost]
         public IActionResult Register(RegisterDto registerDto)
         {
-            Account? account = context.Account.Where(x => x.Username == registerDto.Username).FirstOrDefault();
+            this.ViewBag.Leaders = this.context.Account.Where(x => x.LeaderId == null).ToList();
+            this.ViewBag.InvalidUsername = false;
+            this.ViewBag.InvalidEmail = false;
+            this.ViewBag.InvalidPassword = false;
 
-            if(account != null)
+            Account? account = context.Account.Where(x => x.Username == registerDto.Username).FirstOrDefault();
+            if (account != null)
             {
                 this.ViewBag.InvalidUsername = true;
                 return View();
             }
 
-            if (registerDto.Password != null)
+            if (registerDto.Email != null)
             {
                 account = null;
                 account = context.Account.Where(x => x.Email == registerDto.Email).FirstOrDefault();
@@ -90,7 +94,7 @@ namespace TaskManager.Controllers
                 }
             }
 
-            if (registerDto.Password != registerDto.Password) 
+            if (registerDto.Password != registerDto.PasswordAgain) 
             {
                 this.ViewBag.InvalidPassword = true;
                 return View();
@@ -107,7 +111,7 @@ namespace TaskManager.Controllers
 
             this.HttpContext.Session.SetString("login", newAccount.AccountId.ToString());
            
-            return RedirectToAction("Account", "Login");
+            return RedirectToAction("Login");
         }
         #endregion
         #region Manage
